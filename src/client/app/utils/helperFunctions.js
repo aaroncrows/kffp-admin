@@ -64,11 +64,16 @@ const cleanPathname = (pathname) => {
     return splitPath.join('/');
 };
 
+const handleResponseError = (error) => {
+    console.error('So helpful!', error);
+}
+
 export {
     debounce,
     hoursToDateObj,
     sortObjectsByKey,
     getTokenFromLocalStorage,
     generateBlankSongData,
-    cleanPathname
+    cleanPathname,
+    handleResponseError
 };

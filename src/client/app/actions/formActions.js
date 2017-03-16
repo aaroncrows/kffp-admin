@@ -14,8 +14,9 @@ import {
     CLEAR_INPUT_FIELDS
 } from '../constants';
 import { updateModelData } from './modelActions';
-import { formTypesToHttpVerbs, API_ENDPOINT } from '../utils/constants';
-import { getTokenFromLocalStorage } from '../utils/helperFunctions';
+import { snackbarMessage } from './feedbackActions';
+import { formTypesToHttpVerbs, API_ENDPOINT, PASSWORD_UPDATE_SUCCESS, PASSWORD_UPDATE_FAILURE } from '../utils/constants';
+import { getTokenFromLocalStorage, handleResponseError } from '../utils/helperFunctions';
 import Models from '../data';
 
 const updateFormField = (fieldName, value) => ({
@@ -213,16 +214,12 @@ const updateUserPassword = (obj) => {
                     Authorization: `Bearer ${idToken}`
                 }
             });
-            const message = data.success ? 'Update was successful!' : 'Update Failed.';
 
             dispatch(clearInputFields());
-
-            dispatch({
-                type: SNACKBAR_MESSAGE,
-                data: { message }
-            });
+            dispatch(snackbarMessage(PASSWORD_UPDATE_SUCCESS));
         } catch (e) {
-            console.log(e);
+            handleResponseError(e);
+            dispatch(snackbarMessage(PASSWORD_UPDATE_FAILURE));
         }
     };
 };
